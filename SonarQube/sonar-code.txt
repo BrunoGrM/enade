@@ -1,0 +1,1 @@
+mvn sonar:sonar   -Dsonar.projectKey=Enade   -Dsonar.host.url=http://localhost:9000   -Dsonar.login=242368406c132bd470953ef94f74f68df874610e

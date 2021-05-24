@@ -7,7 +7,6 @@ package com.bruno.enade.model;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -40,7 +39,7 @@ public class TipoQuestao implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
+    @Basic(optional = true)
     @Column(name = "idTipoQuestao")
     private Integer idTipoQuestao;
     @Basic(optional = false)
@@ -49,7 +48,6 @@ public class TipoQuestao implements Serializable {
     @Column(name = "nomeTipoQuestao")
     private String nomeTipoQuestao;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoQuestaoidTipoQuestao")
-    @JsonbTransient
     private List<Questao> questaoList;
 
     public TipoQuestao() {
@@ -111,7 +109,7 @@ public class TipoQuestao implements Serializable {
 
     @Override
     public String toString() {
-        return "com.bruno.enade.model.TipoQuestao[ idTipoQuestao=" + idTipoQuestao + " ]";
+        return idTipoQuestao.toString();
     }
-
+    
 }

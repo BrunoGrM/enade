@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
@@ -85,6 +87,16 @@ public abstract class GenericDAO<T, I extends Serializable> {
             t.rollback();
             Logger.getLogger(e.getMessage());
         }
+    }
+
+    public Object findSingleResult(Query query) {
+        Object result;
+        try {
+            result = query.setMaxResults(1).getSingleResult();
+        } catch (NoResultException ignored) {
+            result = null;
+        }
+        return result;
     }
 
 }

@@ -6,9 +6,9 @@
 package com.bruno.enade.model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -89,6 +89,11 @@ public class Prova implements Serializable {
         this.dataProva = dataProva;
     }
 
+    public String getDataFormatada() {
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        return df.format(dataProva);
+    }
+
     @XmlTransient
     public List<Questao> getQuestaoList() {
         return questaoList;
@@ -129,7 +134,7 @@ public class Prova implements Serializable {
 
     @Override
     public String toString() {
-        return "com.bruno.enade.model.Prova[ idProva=" + idProva + " ]";
+        return idProva.toString();
     }
 
 }

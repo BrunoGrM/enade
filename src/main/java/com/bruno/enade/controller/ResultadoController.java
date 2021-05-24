@@ -8,11 +8,11 @@ package com.bruno.enade.controller;
 import com.bruno.enade.dao.FactoryDAO;
 import com.bruno.enade.dao.ResultadoDAO;
 import com.bruno.enade.model.Resultado;
-import java.awt.event.ActionEvent;
+import javax.faces.event.ActionEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 /**
@@ -20,16 +20,17 @@ import javax.inject.Named;
  * @author bruno
  */
 @Named
-@ViewScoped
+@SessionScoped
 public class ResultadoController implements Serializable {
 
     private final FactoryDAO factoryDAO = new FactoryDAO();
-    private Class<ResultadoDAO> daoClass;
+    private final Class<ResultadoDAO> daoClass;
 
     Resultado resultado = new Resultado();
     List<Resultado> resultados = new ArrayList<>();
 
     public ResultadoController() {
+        daoClass = ResultadoDAO.class;
         resultados = factoryDAO.getInstance(daoClass).findAll();
         resultado = new Resultado();
     }

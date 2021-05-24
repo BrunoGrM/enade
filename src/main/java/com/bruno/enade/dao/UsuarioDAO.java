@@ -17,4 +17,10 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
         super(Usuario.class);
     }
 
+    public Usuario logIn(Usuario usuario) {
+        return (Usuario) findSingleResult(entityManager.createNamedQuery("Usuario.findByEmailAndSenha")
+                .setParameter("email", usuario.getEmail())
+                .setParameter("senha", usuario.getSenha()));
+    }
+
 }

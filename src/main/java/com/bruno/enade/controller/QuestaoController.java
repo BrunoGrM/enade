@@ -8,28 +8,32 @@ package com.bruno.enade.controller;
 import com.bruno.enade.dao.FactoryDAO;
 import com.bruno.enade.dao.QuestaoDAO;
 import com.bruno.enade.model.Questao;
-import java.awt.event.ActionEvent;
+import javax.faces.event.ActionEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import org.primefaces.event.RowEditEvent;
 
 /**
  *
  * @author bruno
  */
 @Named
-@ViewScoped
+@SessionScoped
 public class QuestaoController implements Serializable {
 
     private final FactoryDAO factoryDAO = new FactoryDAO();
-    private Class<QuestaoDAO> daoClass;
+    private final Class<QuestaoDAO> daoClass;
 
     Questao questao = new Questao();
     List<Questao> questoes = new ArrayList<>();
 
     public QuestaoController() {
+        daoClass = QuestaoDAO.class;
         questoes = factoryDAO.getInstance(daoClass).findAll();
         questao = new Questao();
     }
@@ -44,6 +48,19 @@ public class QuestaoController implements Serializable {
         factoryDAO.getInstance(daoClass).remove(questao.getIdQuestao());
         questoes = factoryDAO.getInstance(daoClass).findAll();
         questao = new Questao();
+    }
+
+    public void onRowEdit(RowEditEvent event) {
+        Questao obj = (Questao) event.getObject();
+        setQuestao(obj);
+        gravar(null);
+        FacesMessage msg = new FacesMessage("Editado", obj.getIdQuestao().toString());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void onRowCancel(RowEditEvent<Questao> event) {
+        FacesMessage msg = new FacesMessage("Cancelado", event.getObject().getIdQuestao().toString());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public Questao getQuestao() {

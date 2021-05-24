@@ -116,7 +116,7 @@ public class Resultado implements Serializable {
 
     @Override
     public String toString() {
-        return "com.bruno.enade.model.Resultado[ idResultado=" + idResultado + " ]";
+        return idResultado.toString();
     }
-
+    
 }

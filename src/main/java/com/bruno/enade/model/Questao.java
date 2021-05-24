@@ -7,7 +7,6 @@ package com.bruno.enade.model;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -74,9 +73,8 @@ public class Questao implements Serializable {
     @Column(name = "questaoCorreta")
     private Character questaoCorreta;
     @Column(name = "estadoQuestao")
-    private Short estadoQuestao;
+    private boolean estadoQuestao;
     @ManyToMany(mappedBy = "questaoList")
-    @JsonbTransient
     private List<Prova> provaList;
     @JoinColumn(name = "TipoQuestao_idTipoQuestao", referencedColumnName = "idTipoQuestao")
     @ManyToOne(optional = false)
@@ -158,11 +156,11 @@ public class Questao implements Serializable {
         this.questaoCorreta = questaoCorreta;
     }
 
-    public Short getEstadoQuestao() {
+    public boolean getEstadoQuestao() {
         return estadoQuestao;
     }
 
-    public void setEstadoQuestao(Short estadoQuestao) {
+    public void setEstadoQuestao(boolean estadoQuestao) {
         this.estadoQuestao = estadoQuestao;
     }
 
@@ -205,7 +203,7 @@ public class Questao implements Serializable {
 
     @Override
     public String toString() {
-        return "com.bruno.enade.model.Questao[ idQuestao=" + idQuestao + " ]";
+        return descricaoQuestao;
     }
-
+    
 }

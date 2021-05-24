@@ -8,28 +8,32 @@ package com.bruno.enade.controller;
 import com.bruno.enade.dao.FactoryDAO;
 import com.bruno.enade.dao.ProvaDAO;
 import com.bruno.enade.model.Prova;
-import java.awt.event.ActionEvent;
+import javax.faces.event.ActionEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import org.primefaces.event.RowEditEvent;
 
 /**
  *
  * @author bruno
  */
 @Named
-@ViewScoped
+@SessionScoped
 public class ProvaController implements Serializable {
 
     private final FactoryDAO factoryDAO = new FactoryDAO();
-    private Class<ProvaDAO> daoClass;
+    private final Class<ProvaDAO> daoClass;
 
     Prova prova = new Prova();
     List<Prova> provas = new ArrayList<>();
 
     public ProvaController() {
+        daoClass = ProvaDAO.class;
         provas = factoryDAO.getInstance(daoClass).findAll();
         prova = new Prova();
     }
@@ -44,6 +48,19 @@ public class ProvaController implements Serializable {
         factoryDAO.getInstance(daoClass).remove(prova.getIdProva());
         provas = factoryDAO.getInstance(daoClass).findAll();
         prova = new Prova();
+    }
+
+    public void onRowEdit(RowEditEvent event) {
+        Prova obj = (Prova) event.getObject();
+        setProva(obj);
+        gravar(null);
+        FacesMessage msg = new FacesMessage("Editado", obj.toString());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void onRowCancel(RowEditEvent<Prova> event) {
+        FacesMessage msg = new FacesMessage("Cancelado", event.getObject().toString());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public Prova getProva() {

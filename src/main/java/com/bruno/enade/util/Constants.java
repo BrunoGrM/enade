@@ -20,6 +20,7 @@ public final class Constants {
     
     public static final String URL_INDEX = "/index?faces-redirect=true";
     public static final String URL_LOGIN = "/login?faces-redirect=true";
+    public static final String URL_RESULTADOS = "/resultados?faces-redirect=true";
     
     public static final String HTTP_SESSION_ATRIBUTE_LOGADO = "usuario";
      

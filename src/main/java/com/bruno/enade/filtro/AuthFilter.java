@@ -27,10 +27,11 @@ import javax.servlet.http.HttpSession;
 @WebFilter(filterName = "AuthFilter", urlPatterns = {"*.xhtml"})
 public class AuthFilter implements Filter {
 
+    private final String telaIndex = "/index.xhtml";
     private final String telaLogin = "/login.xhtml";
-    private final List<String> telasAluno = Arrays.asList("/index.xhtml", "/realizarProva.xhtml");
+    private final List<String> telasAluno = Arrays.asList(telaIndex, "/realizarProva.xhtml", "/resultados.xhtml");
     private final List<String> telasProfessor = Arrays.asList(
-            "/index.xhtml",
+            telaIndex,
             "/tipoUsuario.xhtml",
             "/usuarios.xhtml",
             "/tipoQuestao.xhtml",
@@ -51,7 +52,7 @@ public class AuthFilter implements Filter {
         Usuario usuarioLogado = ses != null ? (Usuario) ses.getAttribute(Constants.HTTP_SESSION_ATRIBUTE_LOGADO) : null;
         if (reqURI.contains(telaLogin) && usuarioLogado != null) {
             // Usuário logado tentando acessar a tela de login
-            res.sendRedirect(req.getContextPath() + "/index.xhtml");
+            res.sendRedirect(req.getContextPath() + telaIndex);
         } else if (reqURI.contains(telaLogin) || usuarioLogado != null || reqURI.contains("javax.faces.resource")) {
             if (usuarioLogado == null) {
                 // Tratar se a variável usuário não está vazia
@@ -70,11 +71,11 @@ public class AuthFilter implements Filter {
                 chain.doFilter(request, response);
             } else {
                 // Se o usuário não puder acessar a página de acordo com o seu perfil é redirecionado ao login
-                res.sendRedirect(req.getContextPath() + "/index.xhtml");
+                res.sendRedirect(req.getContextPath() + telaIndex);
             }
         } else {
             // Usuário deslogado tentando acessar qualquer página que precise de autenticação
-            res.sendRedirect(req.getContextPath() + "/login.xhtml");
+            res.sendRedirect(req.getContextPath() + telaLogin);
         }
     }
 

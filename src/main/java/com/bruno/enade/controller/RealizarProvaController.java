@@ -8,9 +8,10 @@ package com.bruno.enade.controller;
 import com.bruno.enade.dao.FactoryDAO;
 import com.bruno.enade.dao.ProvaDAO;
 import com.bruno.enade.model.Prova;
+import com.bruno.enade.model.Questao;
+import com.bruno.enade.model.Resultado;
 import com.bruno.enade.model.Usuario;
 import com.bruno.enade.util.Constants;
-import javax.faces.event.ActionEvent;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpSession;
 @SessionScoped
 public class RealizarProvaController implements Serializable {
 
+    private final ResultadoController resultadoController;
     private final FactoryDAO factoryDAO = new FactoryDAO();
     private final Class<ProvaDAO> daoClass;
 
@@ -33,17 +35,33 @@ public class RealizarProvaController implements Serializable {
 
     public RealizarProvaController() {
         daoClass = ProvaDAO.class;
-        prova = factoryDAO.getInstance(daoClass).findUltimaProvaAtiva(getIdUsuarioLogado());
+        resultadoController = new ResultadoController();
+        prova = factoryDAO.getInstance(daoClass).findUltimaProvaAtiva(getUsuarioLogado().getIdUsuario());
     }
 
-    public void gravar(ActionEvent actionEvent) {
-//        factoryDAO.getInstance(daoClass).merge(prova);
-        prova = factoryDAO.getInstance(daoClass).findUltimaProvaAtiva(getIdUsuarioLogado());
+    public String finalizarProva() {
+        double valorObtido = 0;
+        double valorPorQuestao = 10.0 / prova.getQuestaoList().size();
+        for (Questao questao : prova.getQuestaoList()) {
+            String tipOQuestao = questao.getTipoQuestaoidTipoQuestao().getNomeTipoQuestao();
+            if (tipOQuestao.equals("Discursiva") && !questao.getResposta().trim().equals("")) {
+                valorObtido += valorPorQuestao;
+            } else if (tipOQuestao.equals("Múltipla escolha") && questao.getQuestaoCorreta().toString().equals(questao.getResposta())) {
+                valorObtido += valorPorQuestao;
+            }
+        }
+
+        Resultado resultado = new Resultado();
+        resultado.setProvaidProva(prova);
+        resultado.setUsuarioidUsuario(getUsuarioLogado());
+        resultado.setValorObtido(Math.round(valorObtido * 10.0) / 10.0);
+        resultadoController.setResultado(resultado);
+        resultadoController.gravar(null);
+        return Constants.URL_RESULTADOS;
     }
 
-    private Integer getIdUsuarioLogado() {
-        Usuario usuarioLogado = (Usuario) session.getAttribute(Constants.HTTP_SESSION_ATRIBUTE_LOGADO);
-        return usuarioLogado.getIdUsuario();
+    private Usuario getUsuarioLogado() {
+        return (Usuario) session.getAttribute(Constants.HTTP_SESSION_ATRIBUTE_LOGADO);
     }
 
     public Prova getProva() {

@@ -6,6 +6,7 @@
 package com.bruno.enade.dao;
 
 import com.bruno.enade.model.Resultado;
+import java.util.List;
 
 /**
  *
@@ -16,5 +17,10 @@ public class ResultadoDAO extends GenericDAO<Resultado, Integer> {
     public ResultadoDAO() {
         super(Resultado.class);
     }
-    
+
+    public List<Resultado> findResultadosUsuario(Integer idUsuario) {
+        return entityManager.createNamedQuery("Resultado.findByIdUsuario", Resultado.class)
+                .setParameter("idUsuario", idUsuario).getResultList();
+    }
+
 }

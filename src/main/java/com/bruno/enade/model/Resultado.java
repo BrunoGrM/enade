@@ -30,7 +30,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Resultado.findAll", query = "SELECT r FROM Resultado r"),
     @NamedQuery(name = "Resultado.findByIdResultado", query = "SELECT r FROM Resultado r WHERE r.idResultado = :idResultado"),
-    @NamedQuery(name = "Resultado.findByValorObtido", query = "SELECT r FROM Resultado r WHERE r.valorObtido = :valorObtido")})
+    @NamedQuery(name = "Resultado.findByValorObtido", query = "SELECT r FROM Resultado r WHERE r.valorObtido = :valorObtido"),
+    @NamedQuery(name = "Resultado.findByIdUsuario", query = "SELECT r FROM Resultado r WHERE r.usuarioidUsuario.idUsuario = :idUsuario ORDER BY r.provaidProva.dataProva DESC")})
 public class Resultado implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -118,5 +119,5 @@ public class Resultado implements Serializable {
     public String toString() {
         return idResultado.toString();
     }
-    
+
 }

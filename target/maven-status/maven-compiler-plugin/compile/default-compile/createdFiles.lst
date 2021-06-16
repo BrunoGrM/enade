@@ -1,5 +1,7 @@
 com\bruno\enade\model\Usuario.class
 com\bruno\enade\dao\GenericDAO.class
+com\bruno\enade\controller\RealizarProvaController.class
+com\bruno\enade\filtro\AuthFilter.class
 com\bruno\enade\resources\UsuarioResource.class
 com\bruno\enade\resources\ProvaResource.class
 com\bruno\enade\util\PersistenceUtil.class
@@ -18,7 +20,6 @@ com\bruno\enade\resources\ResultadoResource.class
 com\bruno\enade\dao\FactoryDAO.class
 com\bruno\enade\dao\ProvaDAO.class
 com\bruno\enade\controller\ProvaController.class
-com\bruno\enade\filtro\loginAuth.class
 com\bruno\enade\model\Prova_.class
 com\bruno\enade\dao\TipoUsuarioDAO.class
 com\bruno\enade\dao\TipoQuestaoDAO.class
@@ -39,4 +40,3 @@ com\bruno\enade\resources\TipoQuestaoResource.class
 com\bruno\enade\util\Constants.class
 com\bruno\enade\controller\UsuarioController.class
 com\bruno\enade\dao\UsuarioDAO.class
-com\bruno\enade\filtro\appAuth.class

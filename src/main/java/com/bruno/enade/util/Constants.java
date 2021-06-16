@@ -22,7 +22,7 @@ public final class Constants {
     public static final String URL_LOGIN = "/login?faces-redirect=true";
     
     public static final String HTTP_SESSION_ATRIBUTE_LOGADO = "usuario";
-    
+     
     private Constants() {
     }
 

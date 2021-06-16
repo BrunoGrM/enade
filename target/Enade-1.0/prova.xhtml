@@ -40,7 +40,7 @@
                             <f:facet name="input">
                                 <p:selectCheckboxMenu id="multiple" value="#{valor.questaoList}" label="Questões" style="width:100%"
                                                       multiple="true" filter="true" filterMatchMode="startsWith" panelStyle="width: 30rem" scrollHeight="250">
-                                    <f:selectItems value="#{questaoController.questoes}"/>
+                                    <f:selectItems value="#{questaoController.questoesAtivas}"/>
                                 </p:selectCheckboxMenu>
                             </f:facet>
                         </p:cellEditor>
@@ -102,7 +102,7 @@
                         Questões:
                         <p:selectCheckboxMenu id="multiple" value="#{provaController.prova.questaoList}" label="Questões" style="width: 99%"
                                               multiple="true" filter="true" filterMatchMode="startsWith" panelStyle="width: 30rem" scrollHeight="250">
-                            <f:selectItems value="#{questaoController.questoes}"/>
+                            <f:selectItems value="#{questaoController.questoesAtivas}"/>
                         </p:selectCheckboxMenu>
                     </p:panelGrid>
                     <br/>

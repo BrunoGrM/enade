@@ -113,7 +113,14 @@
                         E-mail:
                         <p:inputText type="email" value="#{usuarioController.usuario.email}" required="true" />
                         Senha:
-                        <p:password value="#{usuarioController.usuario.senha}" feedback="true" />
+                        <p:password 
+                            value="#{usuarioController.usuario.senha}" 
+                            feedback="true"
+                            promptLabel="Digite uma senha" 
+                            weakLabel="Fraca"
+                            goodLabel="Boa" 
+                            strongLabel="Forte"
+                            />
                     </p:panelGrid>
                     <br/>
                     <p:commandButton value="Salvar"  
@@ -125,9 +132,25 @@
                 <h:form>
                     <p:panelGrid id="panelRecord" columns="2">
                         Senha
-                        <p:password value="#{usuarioController.senha1}" feedback="true" redisplay="true" />
+                        <p:password 
+                            value="#{usuarioController.senha1}" 
+                            feedback="true"
+                            promptLabel="Digite uma senha" 
+                            weakLabel="Fraca"
+                            goodLabel="Boa" 
+                            strongLabel="Forte"
+                            redisplay="true" 
+                            />
                         Repetir senha
-                        <p:password value="#{usuarioController.senha2}" feedback="true" redisplay="true" />
+                        <p:password 
+                            value="#{usuarioController.senha2}" 
+                            feedback="true" 
+                            promptLabel="Digite uma senha" 
+                            weakLabel="Fraca"
+                            goodLabel="Boa" 
+                            strongLabel="Forte"
+                            redisplay="true" 
+                            />
                     </p:panelGrid>
                     <br/>
                     <p:commandButton value="Salvar"  

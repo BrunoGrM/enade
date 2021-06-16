@@ -44,16 +44,7 @@ public class UsuarioController implements Serializable {
     }
 
     public void gravar(ActionEvent actionEvent) {
-        usuario.setSenha(EncryptUtil.encrypt(usuario.getSenha()));
-        if (usuario.getTipoUsuarioidTipoUsuario() == null) {
-            TipoUsuario tipoUsuario = new TipoUsuario();
-            tipoUsuario.setIdTipoUsuario(1);
-            tipoUsuario.setNomeTipoUsuario("Aluno");
-            usuario.setTipoUsuarioidTipoUsuario(tipoUsuario);
-        }
-        factoryDAO.getInstance(daoClass).merge(usuario);
-        usuarios = factoryDAO.getInstance(daoClass).findAll();
-        usuario = new Usuario();
+        salvarUsuario(usuario, true);
     }
 
     public void remover(ActionEvent actionEvent) {
@@ -73,6 +64,22 @@ public class UsuarioController implements Serializable {
             FacesMessage msg = new FacesMessage("Cancelado", "Senhas não conferem!");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
+    }
+
+    public Usuario salvarUsuario(Usuario u, boolean buscarUsuarios) {
+        u.setSenha(EncryptUtil.encrypt(u.getSenha()));
+        if (u.getTipoUsuarioidTipoUsuario() == null) {
+            TipoUsuario tipoUsuario = new TipoUsuario();
+            tipoUsuario.setIdTipoUsuario(1);
+            tipoUsuario.setNomeTipoUsuario("Aluno");
+            u.setTipoUsuarioidTipoUsuario(tipoUsuario);
+        }
+        Usuario usuarioPersisted = factoryDAO.getInstance(daoClass).merge(u);
+        if (buscarUsuarios) {
+            usuarios = factoryDAO.getInstance(daoClass).findAll();
+            usuario = new Usuario();
+        }
+        return usuarioPersisted;
     }
 
     public void onRowEdit(RowEditEvent event) {

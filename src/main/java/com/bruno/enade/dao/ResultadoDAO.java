@@ -16,5 +16,5 @@ public class ResultadoDAO extends GenericDAO<Resultado, Integer> {
     public ResultadoDAO() {
         super(Resultado.class);
     }
-
+    
 }

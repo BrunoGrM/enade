@@ -28,23 +28,42 @@ public class LoginController implements Serializable {
     private final FactoryDAO factoryDAO = new FactoryDAO();
     private final Class<UsuarioDAO> daoClass;
 
-    private Usuario usuario = new Usuario();
+    private final UsuarioController usuarioController;
+    private Usuario usuarioLogin;
+    private Usuario usuarioCadastro;
 
     public LoginController() {
         daoClass = UsuarioDAO.class;
-        usuario = new Usuario();
+        usuarioController = new UsuarioController();
+        usuarioLogin = new Usuario();
+        usuarioCadastro = new Usuario();
+    }
+
+    public String cadastrar() {
+        Usuario usuarioFind = factoryDAO.getInstance(daoClass).findByEmail(usuarioCadastro);
+        if (usuarioFind == null) {
+            Usuario usuarioPersisted = usuarioController.salvarUsuario(usuarioCadastro, false);
+            setUsuarioLogin(usuarioPersisted);
+
+            HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+            session.setAttribute(Constants.HTTP_SESSION_ATRIBUTE_LOGADO, usuarioLogin);
+            return Constants.URL_INDEX;
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "E-mail já cadastrado. Por favor faça o login!", null));
+            return null;
+        }
     }
 
     public String login() {
-        usuario.setSenha(EncryptUtil.encrypt(usuario.getSenha()));
-        Usuario usuarioFind = factoryDAO.getInstance(daoClass).logIn(usuario);
+        usuarioLogin.setSenha(EncryptUtil.encrypt(usuarioLogin.getSenha()));
+        Usuario usuarioFind = factoryDAO.getInstance(daoClass).logIn(usuarioLogin);
         if (usuarioFind == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "E-mail ou senha inválidos", null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "E-mail ou senha inválidos!", null));
             return null;
         } else {
-            setUsuario(usuarioFind);
-            HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-            session.setAttribute(Constants.HTTP_SESSION_ATRIBUTE_LOGADO, usuario);
+            setUsuarioLogin(usuarioFind);
+            HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+            session.setAttribute(Constants.HTTP_SESSION_ATRIBUTE_LOGADO, usuarioLogin);
             return Constants.URL_INDEX;
         }
     }
@@ -58,12 +77,24 @@ public class LoginController implements Serializable {
         return Constants.URL_INDEX;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public boolean isProfessor() {
+        return usuarioLogin.getTipoUsuarioidTipoUsuario().getNomeTipoUsuario().equals("Professor");
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public Usuario getUsuarioLogin() {
+        return usuarioLogin;
+    }
+
+    public void setUsuarioLogin(Usuario usuarioLogin) {
+        this.usuarioLogin = usuarioLogin;
+    }
+
+    public Usuario getUsuarioCadastro() {
+        return usuarioCadastro;
+    }
+
+    public void setUsuarioCadastro(Usuario usuarioCadastro) {
+        this.usuarioCadastro = usuarioCadastro;
     }
 
 }

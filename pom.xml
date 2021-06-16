@@ -5,7 +5,7 @@
     <artifactId>Enade</artifactId>
     <version>1.0</version>
     <packaging>war</packaging>
-    <name>Enade-1.0</name>
+    <name>Enade</name>
     
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -59,20 +59,13 @@
             <version>8.0.23</version>
         </dependency>
         <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.1.1</version>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.6.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-params</artifactId>
-            <version>5.6.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
             <version>5.6.0</version>
             <scope>test</scope>
         </dependency>
@@ -92,6 +85,16 @@
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
             <version>8.0</version>
+        </dependency>
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-api</artifactId>
+            <version>2.2.0-m07</version>
         </dependency>
         <dependency>
             <groupId>com.lowagie</groupId>
@@ -124,11 +127,45 @@
             <artifactId>guava</artifactId>
             <version>24.1-jre</version>
         </dependency>
+        <!--<dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.faces</artifactId>
+            <version>2.3.0</version>
+        </dependency>-->
+        <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+            <version>2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.faces</groupId>
+            <artifactId>javax.faces-api</artifactId>
+            <version>2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+        </dependency>
+        <!--<dependency>
+            <groupId>org.jboss.weld.servlet</groupId>
+            <artifactId>weld-servlet-shaded</artifactId>
+            <version>3.1.6.Final</version>
+        </dependency>-->
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+            <version>9.0.37</version>
+        </dependency>
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
-            <version>${jakartaee}</version>
-            <scope>provided</scope>
+            <version>8.0</version>
+        </dependency>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-web-api</artifactId>
+            <version>8.0.1</version>
         </dependency>
     </dependencies>
     
@@ -180,5 +217,7 @@
                 </executions>
             </plugin>
         </plugins>
+        <!--<finalName>${project.artifactId}##${project.version}</finalName>-->
     </build>
+    <description>Projeto da disciplina LPWSD.</description>
 </project>

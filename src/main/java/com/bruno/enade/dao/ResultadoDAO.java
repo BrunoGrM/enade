@@ -22,5 +22,9 @@ public class ResultadoDAO extends GenericDAO<Resultado, Integer> {
         return entityManager.createNamedQuery("Resultado.findByIdUsuario", Resultado.class)
                 .setParameter("idUsuario", idUsuario).getResultList();
     }
+    
+    public List<Resultado> findUltimosDezResultados() {
+        return entityManager.createQuery("from Resultado r ORDER BY r.idResultado DESC", Resultado.class).setMaxResults(10).getResultList();
+    }
 
 }

@@ -6,6 +6,7 @@
 package com.bruno.enade.dao;
 
 import com.bruno.enade.model.Usuario;
+import java.util.List;
 
 /**
  *
@@ -26,6 +27,10 @@ public class UsuarioDAO extends GenericDAO<Usuario, Integer> {
         return (Usuario) findSingleResult(entityManager.createNamedQuery("Usuario.findByEmailAndSenha")
                 .setParameter("email", usuario.getEmail())
                 .setParameter("senha", usuario.getSenha()));
+    }
+    
+    public List<Usuario> findAllAlunos() {
+        return entityManager.createNamedQuery("Usuario.findAllAlunos").getResultList();
     }
 
 }

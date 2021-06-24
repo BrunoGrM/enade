@@ -24,6 +24,7 @@
                     <p:menuitem value="Consulta por Prova" icon="ui-icon-print" url="consultaProva.xhtml"/>
                     <p:menuitem value="Relatório" icon="ui-icon-print" url="relatorio.xhtml"/>
                 </p:submenu>
+                <p:menuitem value="Gráficos" icon="ui-icon-image" url="graficos.xhtml" rendered="#{loginController.isProfessor()}" />
                 <p:menuitem value="Realizar prova" icon="ui-icon-document" url="realizarProva.xhtml" rendered="#{!loginController.isProfessor()}"/>
                 <p:menuitem value="Resultado provas" icon="ui-icon-clipboard" url="resultados.xhtml" rendered="#{!loginController.isProfessor()}"/>
             </p:menubar>

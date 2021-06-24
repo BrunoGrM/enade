@@ -17,7 +17,7 @@
                     <h1 style="text-align: center">Nenhuma nova prova marcada ainda!</h1>
                 </c:if>
                 <c:if test='#{realizarProvaController.prova != null}'>
-                    <h1>Prova do dia ${realizarProvaController.prova.dataFormatada}. Total 10.0 pontos!</h1>
+                    <h1>Prova do dia ${realizarProvaController.prova.dataFormatada}. Valor máximo 10.0 pontos.</h1>
                     <p:outputLabel value="Ao terminar de responder todas as questões clique no botão de 'Enviar prova' ao final das questões!" />
                     <h:form>
                         <c:forEach items="${realizarProvaController.prova.questaoList}" var="questao" varStatus="loop">
@@ -42,6 +42,8 @@
 
                         <br />
                         <p:commandButton value="Enviar prova" style="float: right" onclick="PF('finalizar').show();" /> 
+                        <br />
+                        <br />
                     </h:form>
                 </c:if>
             </div>

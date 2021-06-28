@@ -29,8 +29,8 @@ public class AuthFilter implements Filter {
 
     private final String telaIndex = "/index.xhtml";
     private final String telaLogin = "/login.xhtml";
-    private final List<String> telasAluno = Arrays.asList(telaIndex, "/realizarProva.xhtml", "/resultados.xhtml");
-    private final List<String> telasProfessor = Arrays.asList(
+    private final List<String> TELAS_ALUNO = Arrays.asList(telaIndex, "/realizarProva.xhtml", "/resultados.xhtml");
+    private final List<String> TELAS_PROFESSOR = Arrays.asList(
             telaIndex,
             "/tipoUsuario.xhtml",
             "/usuarios.xhtml",
@@ -39,7 +39,8 @@ public class AuthFilter implements Filter {
             "/prova.xhtml",
             "/consultaUsuario.xhtml",
             "/consultaProva.xhtml",
-            "/relatorio.xhtml"
+            "/graficos.xhtml",
+            "/relatorios.xhtml"
     );
 
     @Override
@@ -60,13 +61,13 @@ public class AuthFilter implements Filter {
             } else if (reqURI.contains("javax.faces.resource")) {
                 // Requisição de outros arquivos sem ser os xhtml
                 chain.doFilter(request, response);
-            } else if (usuarioLogado.getTipoUsuarioidTipoUsuario().getNomeTipoUsuario().equals("Professor") && telasProfessor.contains(reqURI.replace("/Enade", ""))) {
+            } else if (usuarioLogado.getTipoUsuarioidTipoUsuario().getNomeTipoUsuario().equals("Professor") && TELAS_PROFESSOR.contains(reqURI.replace("/Enade", ""))) {
                 // Acessar as telas permitidas de professor
                 chain.doFilter(request, response);
-            } else if (usuarioLogado.getTipoUsuarioidTipoUsuario().getNomeTipoUsuario().equals("Aluno") && telasAluno.contains(reqURI.replace("/Enade", ""))) {
+            } else if (usuarioLogado.getTipoUsuarioidTipoUsuario().getNomeTipoUsuario().equals("Aluno") && TELAS_ALUNO.contains(reqURI.replace("/Enade", ""))) {
                 // Acessar as telas permitidas de aluno
                 chain.doFilter(request, response);
-            } else if (!telasProfessor.contains(reqURI.replace("/Enade", "")) && !telasAluno.contains(reqURI.replace("/Enade", ""))) {
+            } else if (!TELAS_PROFESSOR.contains(reqURI.replace("/Enade", "")) && !TELAS_ALUNO.contains(reqURI.replace("/Enade", ""))) {
                 // Tratar ao acessar uma página não encontrada
                 chain.doFilter(request, response);
             } else {

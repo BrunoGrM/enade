@@ -43,10 +43,10 @@ public class RealizarProvaController implements Serializable {
         double valorObtido = 0;
         double valorPorQuestao = 10.0 / prova.getQuestaoList().size();
         for (Questao questao : prova.getQuestaoList()) {
-            String tipOQuestao = questao.getTipoQuestaoidTipoQuestao().getNomeTipoQuestao();
-            if (tipOQuestao.equals("Discursiva") && !questao.getResposta().trim().equals("")) {
+            String tipoQuestao = questao.getTipoQuestaoidTipoQuestao().getNomeTipoQuestao();
+            if (tipoQuestao.equals("Discursiva") && !questao.getResposta().trim().equals("")) {
                 valorObtido += valorPorQuestao;
-            } else if (tipOQuestao.equals("Múltipla escolha") && questao.getQuestaoCorreta().toString().equals(questao.getResposta())) {
+            } else if (tipoQuestao.equals("Múltipla escolha") && questao.getQuestaoCorreta().toString().equals(questao.getResposta())) {
                 valorObtido += valorPorQuestao;
             }
         }

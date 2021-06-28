@@ -5,13 +5,16 @@
  */
 package com.bruno.enade.reports;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -26,39 +29,39 @@ import net.sf.jasperreports.engine.JasperReport;
 public class Relatorio {
 
     private final String BASE_URL = "E:/Faculdade/9º período/Laboratório de Programação de Web Sites Dinâmicos/Enade/src/main/java/com/bruno/enade/reports/";
+    private final HttpServletResponse response;
+    private final FacesContext context;
+    private ByteArrayOutputStream baos;
     private Connection con;
 
     public Relatorio() {
+        this.context = FacesContext.getCurrentInstance();
+        this.response = (HttpServletResponse) context.getExternalContext().getResponse();
     }
 
     public void getRelatorio(String relatorio) {
-//        Map<String, Object> params = new HashMap<>();
-//        try {
-//            String jrxmlFileName = BASE_URL + relatorio + ".jrxml";
-//            String jasperFileName = BASE_URL + relatorio + ".jasper";
-//            String pdfFileName = BASE_URL + relatorio + "/report.pdf";
-//
-//            JasperCompileManager.compileReportToFile(jrxmlFileName, jasperFileName);
-//            JasperPrint jprint = (JasperPrint) JasperFillManager.fillReport(jasperFileName, params, getConexao());
-//            JasperExportManager.exportReportToPdfFile(jprint, pdfFileName);
-//
-//            fecharConexao();
-//        } catch (JRException e) {
-//            Logger.getLogger(e.getMessage());
-//        }
-
-        JasperReport jasperReport = null;
-        Map<String, Object> parameters = new HashMap<>();
-        JasperPrint jasperPrint;
+        Map<String, Object> params = new HashMap<>();
+        baos = new ByteArrayOutputStream();
 
         try {
-            jasperReport = JasperCompileManager.compileReport(BASE_URL + relatorio + ".jrxml");
+            JasperReport report = JasperCompileManager.compileReport(BASE_URL + relatorio + ".jrxml");
 
-            jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, getConexao());
+            JasperPrint print = JasperFillManager.fillReport(report, params, getConexao());
+            JasperExportManager.exportReportToPdfStream(print, baos);
 
-            JasperExportManager.exportReportToPdfFile(jasperPrint, BASE_URL + relatorio + ".pdf");
-        } catch (JRException ex) {
-            Logger.getLogger(Relatorio.class.getName()).log(Level.SEVERE, null, ex);
+            response.reset();
+            response.setContentType("application/pdf");
+            response.setContentLength(baos.size());
+            response.setHeader("Content-disposition", "inline; filename=relatorio.pdf");
+            response.getOutputStream().write(baos.toByteArray());
+            response.getOutputStream().flush();
+            response.getOutputStream().close();
+
+            context.responseComplete();
+            fecharConexao();
+
+        } catch (JRException | IOException e) {
+            Logger.getLogger(e.getMessage());
         }
     }
 
